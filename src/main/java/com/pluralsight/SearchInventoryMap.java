@@ -25,21 +25,35 @@ public class SearchInventoryMap {
 
         // Ask the user which product id to look up
         Scanner scanner = new Scanner(System.in);
-        System.out.println("What product do you want to search for? ");
-        int id = scanner.nextInt();
 
-        // Look up the product by its id (returns null if it isn't in the map)
-        Product found = inventoryMap.get(id);
-        if (found != null) {
-            // Product exists: show its name and price
-            System.out.printf("We have %s and it costs $%.2f%n", found.getName(), found.getPrice());
+        // declared BEFORE the loop so the while() at the bottom can see it
+        String again;
 
-        } else {
-            // No product with that id
-            System.out.println("The product with the id " + id + " is not found.");
+        do {
+            System.out.println("What product do you want to search for? ");
+            int id = scanner.nextInt();
 
-        }
+            // Clear leftover
+            scanner.nextLine();
 
+            // Look up the product by its id (returns null if it isn't in the map)
+            Product found = inventoryMap.get(id);
+            if (found != null) {
+                // Product exists: show its name and price
+                System.out.printf("We have %s and it costs $%.2f%n", found.getName(), found.getPrice());
+
+            } else {
+                // No product with that id
+                System.out.println("The product with the id " + id + " is not found.");
+
+            }
+
+            System.out.println("Do you want to search again? (yes/no) ");
+            again = scanner.nextLine();
+
+        }  while (again.equalsIgnoreCase("yes"));
+
+        System.out.println("Thanks for using our search!");
         // Close the Scanner when the program is done
         scanner.close();
     }
