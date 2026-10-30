@@ -11,29 +11,30 @@ import java.util.Scanner;
  * Search Inventory Map
  * Loads the store's products from inventory.csv into a HashMap
  * (key = product id, value = Product) and lets the user look up
- * a product by its id.
+ * products by id, repeating as long as they want to search again.
  */
 public class SearchInventoryMap {
 
     // Key is the product id, value is the Product object
     public static HashMap<Integer, Product> inventoryMap = new HashMap<>();
 
-
     public static void main(String[] args) {
         // Fill the map with products from the file
         loadInventory();
 
-        // Ask the user which product id to look up
+        // Scanner to read user input
         Scanner scanner = new Scanner(System.in);
 
-        // declared BEFORE the loop so the while() at the bottom can see it
+        // Declared before the loop so the while() at the bottom can see it
         String again;
 
+        // Search at least once, then repeat while the user answers yes
         do {
+            // Ask the user which product id to look up
             System.out.println("What product do you want to search for? ");
             int id = scanner.nextInt();
 
-            // Clear leftover
+            // Clear the leftover Enter key after nextInt()
             scanner.nextLine();
 
             // Look up the product by its id (returns null if it isn't in the map)
@@ -41,20 +42,20 @@ public class SearchInventoryMap {
             if (found != null) {
                 // Product exists: show its name and price
                 System.out.printf("We have %s and it costs $%.2f%n", found.getName(), found.getPrice());
-
             } else {
                 // No product with that id
                 System.out.println("The product with the id " + id + " is not found.");
-
             }
 
+            // Ask if the user wants to do another search
             System.out.println("Do you want to search again? (yes/no) ");
             again = scanner.nextLine();
 
-        }  while (again.equalsIgnoreCase("yes"));
+        } while (again.equalsIgnoreCase("yes"));
 
         System.out.println("Thanks for using our search!");
-        // Close the Scanner when the program is done
+
+        //!Close the Scanner when the program is done
         scanner.close();
     }
 
@@ -84,13 +85,12 @@ public class SearchInventoryMap {
                 inventoryMap.put(id, new Product(id, name, price));
             }
 
-            // Close the file
+            //! Close the file
             prodReader.close();
 
         } catch (IOException e) {
             // Runs if the file can not be found or read
             System.out.println("Error: " + e.getMessage());
-
         }
     }
 }
